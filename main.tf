@@ -13,16 +13,16 @@ provider "aws" {
 }
 
 # Create a VPC
-resource "aws_vpc" "default" {
-  cidr_block = "10.0.0.0/16"
+
+
+variable "envs" {
+  type    = list(string)
+  default = ["dev", "prd", ""]
+
 }
 
-
-resource "aws_subnet" "public_subnet" {
-  vpc_id     = aws_vpc.default.id
-  cidr_block = "10.0.1.0/24"
-
-  tags = {
-    Name = "public_subnet"
-  }
+module "personal_custom_vpc" {
+  for_each = toset([for s in var.envs : s if s != ""])
+  source   = "./custom_vpc"
+  env      = ${each.key}
 }
