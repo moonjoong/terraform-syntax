@@ -21,8 +21,8 @@ variable "envs" {
 
 }
 
-module "personal_custom_vpc" {
+module "vpc_list" {
   for_each = toset([for s in var.envs : s if s != ""])
   source   = "./custom_vpc"
-  env      = ${each.key}
+  env      = each.key
 }
