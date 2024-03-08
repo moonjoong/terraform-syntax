@@ -30,9 +30,3 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-
-resource "aws_nat_gateway" "public_nat" {
-  count             = var.env == "dev" ? 1 : 0
-  connectivity_type = "public"
-  subnet_id         = aws_subnet.public_subnet[0].id
-}
